@@ -17,17 +17,18 @@
 pkg load control;
 
 %%%%%%%%%%%%%%%%%%%% CONSTANTS
-pole_1 = 2.122e3; %Hz
-pole_2 = 50; %Hz
-zero_1 = 500; %Hz
+pole_1 = 75e-6; %Sec
+pole_2 = 3.18e-3; %Sec
+zero_1 = 318e-6; %Sec
+dc_gain = 10;
 
 %%%%%%%%%%%%%%%%%%%% METHODS / PROCESSING
 
 s = tf('s');
-H_preamp = (s - zero_1) / ((s - pole_1)*(s - pole_2))
+H_preamp = dc_gain*(s*zero_1 + 1) / ((s*pole_1 + 1)*(s*pole_2 + 1));
 
 %%%%%%%%%%%%%%%%%%%% PLOTTING
 
-bode(H_preamp)
-print -dpng playback.png
+bode(H_preamp);
+print -dpng playback.png;
 
