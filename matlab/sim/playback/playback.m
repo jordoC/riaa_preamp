@@ -20,12 +20,13 @@ pkg load control;
 pole_1 = 75e-6; %Sec
 pole_2 = 3.18e-3; %Sec
 zero_1 = 318e-6; %Sec
-dc_gain = 10;
 
 %%%%%%%%%%%%%%%%%%%% METHODS / PROCESSING
 
 s = tf('s');
-H_preamp = dc_gain*(s*zero_1 + 1) / ((s*pole_1 + 1)*(s*pole_2 + 1));
+H_preamp = (s*zero_1 + 1) / ((s*pole_1 + 1)*(s*pole_2 + 1));
+dc_gain = abs(H_preamp(1000*2*pi))^-1;
+H_preamp = dc_gain*H_preamp; %re-normalize to 0dB at 1kHz as per audio spec
 
 %%%%%%%%%%%%%%%%%%%% PLOTTING
 
